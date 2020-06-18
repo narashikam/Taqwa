@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/overlay_dark_40">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mesjid At Taqwa"
+            android:gravity="center"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:layout_centerVertical="true" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="5dp"
+            android:layout_alignParentRight="true">
+
+            <TextClock
+                android:id="@+id/text_clock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="40dp"
+                android:textColor="@color/red_600"
+                android:padding="5dp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_gravity="right">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pengaturan"
+                    android:textSize="14dp"/>
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/setting"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_gravity="center"
+                    android:tint="@android:color/white"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="@dimen/card_width"
+                android:layout_height="100dp"
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Shubuh"
+                    android:textStyle="bold"
+                    android:background="@color/deep_orange_600"
+                    android:gravity="center"
+                    android:textSize="18dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="04:45"
+                    android:textStyle="bold"
+                    android:textSize="22dp"
+                    android:gravity="center"
+                    android:background="@android:color/background_dark"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="@dimen/card_width"
+                android:layout_height="100dp"
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Dhuha"
+                    android:textStyle="bold"
+                    android:background="@color/blue_800"
+                    android:gravity="center"
+                    android:textSize="18dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="04:45"
+                    android:textStyle="bold"
+                    android:textSize="22dp"
+                    android:gravity="center"
+                    android:background="@android:color/background_dark"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="@dimen/card_width"
+                android:layout_height="100dp"
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Dzuhur"
+                    android:textStyle="bold"
+                    android:background="@color/red_700"
+                    android:gravity="center"
+                    android:textSize="18dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="04:45"
+                    android:textStyle="bold"
+                    android:textSize="22dp"
+                    android:gravity="center"
+                    android:background="@android:color/background_dark"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="@dimen/card_width"
+                android:layout_height="100dp"
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ashr"
+                    android:textStyle="bold"
+                    android:background="@color/green_600"
+                    android:gravity="center"
+                    android:textSize="18dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="04:45"
+                    android:textStyle="bold"
+                    android:textSize="22dp"
+                    android:gravity="center"
+                    android:background="@android:color/background_dark"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="@dimen/card_width"
+                android:layout_height="100dp"
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Maghrib"
+                    android:textStyle="bold"
+                    android:background="@color/blue_900"
+                    android:gravity="center"
+                    android:textSize="18dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="04:45"
+                    android:textStyle="bold"
+                    android:textSize="22dp"
+                    android:gravity="center"
+                    android:background="@android:color/background_dark"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="@dimen/card_width"
+                android:layout_height="100dp"
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Isya"
+                    android:textStyle="bold"
+                    android:background="@color/brown_800"
+                    android:gravity="center"
+                    android:textSize="18dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="04:45"
+                    android:textStyle="bold"
+                    android:textSize="22dp"
+                    android:gravity="center"
+                    android:background="@android:color/background_dark"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_marquee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/test"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:padding="5dp"
+            android:layout_marginTop="10dp"
+            android:textSize="18dp"
+            android:ellipsize="marquee"
+            android:textColor="@android:color/background_dark"
+            android:background="@color/orange_500"
+            android:singleLine="true"/>
+
+    </LinearLayout>
+    
+</RelativeLayout>
