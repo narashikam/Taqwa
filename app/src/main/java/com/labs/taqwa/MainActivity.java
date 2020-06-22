@@ -15,8 +15,11 @@
 package com.labs.taqwa;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
 
@@ -36,6 +39,7 @@ public class MainActivity extends Activity {
     private int[] slide_image;
     private SlideImageAdapter adapter;
     private ViewPager view_pager;
+    private LinearLayout lyt_setting;
     private int indexImage = 0;
 
     @Override
@@ -44,6 +48,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         view_pager = findViewById(R.id.view_pager);
+        lyt_setting = findViewById(R.id.lyt_setting);
 
         text_marquee = findViewById(R.id.text_marquee);
         text_marquee.setSelected(true);
@@ -57,6 +62,13 @@ public class MainActivity extends Activity {
         view_pager.setAdapter(adapter);
 
         createTopSlideShow();
+
+        lyt_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, Setting.class));
+            }
+        });
     }
 
     private void createTopSlideShow(){

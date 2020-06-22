@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Setting"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:id="@+id/lyt_one"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="5dp"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nama Mesjid"/>
+
+        <EditText
+            android:id="@+id/edt_mesjid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nama"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lyt_two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/lyt_one"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Shubuh"/>
+
+            <EditText
+                android:id="@+id/edt_adzan_shubuh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="waktu adzan"/>
+
+            <EditText
+                android:id="@+id/edt_iqomah_shubuh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="waktu iqomah"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dhuha"/>
+
+            <EditText
+                android:id="@+id/edt_adzan_dhuha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="waktu dhuha"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dzuhur"/>
+
+            <EditText
+                android:id="@+id/edt_adzan_dzuhur"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="waktu adzan"/>
+
+            <EditText
+                android:id="@+id/edt_iqomah_dzuhur"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="waktu iqomah"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ashr"/>
+
+            <EditText
+                android:id="@+id/edt_adzan_ashr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="waktu adzan"/>
+
+            <EditText
+                android:id="@+id/edt_iqomah_ashr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="waktu iqomah"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Maghrib"/>
+
+            <EditText
+                android:id="@+id/edt_adzan_magrib"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="waktu adzan"/>
+
+            <EditText
+                android:id="@+id/edt_iqomah_magrib"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="waktu iqomah"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Isya"/>
+
+            <EditText
+                android:id="@+id/edt_adzan_isya"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="waktu adzan"/>
+
+            <EditText
+                android:id="@+id/edt_iqomah_isya"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="waktu iqomah"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/lyt_three"
+        android:layout_below="@+id/lyt_two">
+
+        <Button
+            android:id="@+id/btn_gallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pilih Gambar"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kosong"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/lyt_three">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Text Berjalan"/>
+
+        <EditText
+            android:id="@+id/edt_text_berjalan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint=""/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_simpan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Simpan"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>
