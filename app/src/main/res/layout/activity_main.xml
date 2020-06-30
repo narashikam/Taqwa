@@ -96,6 +96,7 @@
                     android:textSize="18dp"/>
 
                 <TextView
+                    android:id="@+id/txt_shubuh"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="04:45"
@@ -122,6 +123,7 @@
                     android:textSize="18dp"/>
 
                 <TextView
+                    android:id="@+id/txt_dhuha"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="04:45"
@@ -148,6 +150,7 @@
                     android:textSize="18dp"/>
 
                 <TextView
+                    android:id="@+id/txt_dzuhur"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="04:45"
@@ -174,6 +177,7 @@
                     android:textSize="18dp"/>
 
                 <TextView
+                    android:id="@+id/txt_ashr"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="04:45"
@@ -200,6 +204,7 @@
                     android:textSize="18dp"/>
 
                 <TextView
+                    android:id="@+id/txt_magrib"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="04:45"
@@ -226,6 +231,7 @@
                     android:textSize="18dp"/>
 
                 <TextView
+                    android:id="@+id/txt_isya"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="04:45"

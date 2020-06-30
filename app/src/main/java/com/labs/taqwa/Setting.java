@@ -3,6 +3,7 @@ package com.labs.taqwa;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ClipData;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -15,6 +16,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.labs.taqwa.database.DBManager;
+import com.labs.taqwa.database.TableMain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +47,8 @@ public class Setting extends Activity {
     private EditText edt_mesjid;
     private EditText edt_text_berjalan;
 
+    DBManager dbManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +73,8 @@ public class Setting extends Activity {
         edt_mesjid = findViewById(R.id.edt_mesjid);
         edt_text_berjalan = findViewById(R.id.edt_text_berjalan);
 
+        dbManager = new DBManager(getApplicationContext());
+
         btn_gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,52 +90,113 @@ public class Setting extends Activity {
             }
         });
 
+        Cursor cursor =  dbManager.fetch(TableMain.TABLE_MAIN, TableMain.TABLE_FIELDS, null, null, null, null);
+
+        if (cursor.getCount() > 0){
+            while (cursor.moveToNext()){
+                edt_adzan_shubuh.setText(cursor.getString(1));
+                edt_adzan_dhuha.setText(cursor.getString(2));
+                edt_adzan_dzuhur.setText(cursor.getString(3));
+                edt_adzan_ashr.setText(cursor.getString(4));
+                edt_adzan_magrib.setText(cursor.getString(5));
+                edt_adzan_isya.setText(cursor.getString(6));
+
+                edt_iqomah_shubuh.setText(cursor.getString(7));
+                edt_iqomah_dzuhur.setText(cursor.getString(8));
+                edt_iqomah_ashr.setText(cursor.getString(9));
+                edt_iqomah_magrib.setText(cursor.getString(10));
+                edt_iqomah_isya.setText(cursor.getString(11));
+
+                edt_text_berjalan.setText(cursor.getString(12));
+            }
+        }
+
         btn_simpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (validasiForm(edt_mesjid)){
-
-                }
-                else if (validasiForm(edt_adzan_shubuh)){
-
-                }
-                else if (validasiForm(edt_adzan_dhuha)){
-
-                }
-                else if (validasiForm(edt_adzan_dzuhur)){
-
-                }
-                else if (validasiForm(edt_adzan_ashr)){
-
-                }
-                else if (validasiForm(edt_adzan_magrib)){
-
-                }
-                else if (validasiForm(edt_adzan_isya)){
-
-                }
-                else if (validasiForm(edt_iqomah_shubuh)){
-
-                }
-                else if (validasiForm(edt_iqomah_dzuhur)){
-
-                }
-                else if (validasiForm(edt_iqomah_ashr)){
-
-                }
-                else if (validasiForm(edt_iqomah_magrib)){
-
-                }
-                else if (validasiForm(edt_iqomah_isya)){
-
-                }
-                else if (validasiForm(edt_text_berjalan)){
-
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "Pasitikan semua sudah terisi", Toast.LENGTH_SHORT).show();
+                if (!validasiForm(edt_mesjid)){
+                    Toast.makeText(getApplicationContext(), "Pasitikan Nama Mesjid Terisi", Toast.LENGTH_SHORT).show();
                     return;
+
                 }
+                if (!validasiForm(edt_adzan_shubuh)){
+                    Toast.makeText(getApplicationContext(), "Pasitikan Nama Waktu Adzan Shubuh Terisi", Toast.LENGTH_SHORT).show();
+                    return;
+
+                }
+                if (!validasiForm(edt_adzan_dhuha)){
+                    Toast.makeText(getApplicationContext(), "Pasitikan Nama Waktu Dhuha Terisi", Toast.LENGTH_SHORT).show();
+                    return;
+
+                }
+                if (!validasiForm(edt_adzan_dzuhur)){
+                    Toast.makeText(getApplicationContext(), "Pasitikan Nama Waktu Adzan Dzuhur Terisi", Toast.LENGTH_SHORT).show();
+                    return;
+
+                }
+                if (!validasiForm(edt_adzan_ashr)){
+                    Toast.makeText(getApplicationContext(), "Pasitikan Nama Waktu Adzan Ashr Terisi", Toast.LENGTH_SHORT).show();
+                    return;
+
+                }
+                if (!validasiForm(edt_adzan_magrib)){
+                    Toast.makeText(getApplicationContext(), "Pasitikan Nama Waktu Adzan Magrib Terisi", Toast.LENGTH_SHORT).show();
+                    return;
+
+                }
+                if (!validasiForm(edt_adzan_isya)){
+                    Toast.makeText(getApplicationContext(), "Pasitikan Nama Waktu Adzan Isya Terisi", Toast.LENGTH_SHORT).show();
+                    return;
+
+                }
+
+                if (!validasiForm(edt_iqomah_shubuh)){
+                    Toast.makeText(getApplicationContext(), "Pasitikan Nama Waktu Iqomah Shubuh Terisi", Toast.LENGTH_SHORT).show();
+                    return;
+
+                }
+                if (!validasiForm(edt_iqomah_dzuhur)){
+                    Toast.makeText(getApplicationContext(), "Pasitikan Nama Waktu Iqomah Dzuhur Terisi", Toast.LENGTH_SHORT).show();
+                    return;
+
+                }
+                if (!validasiForm(edt_iqomah_ashr)){
+                    Toast.makeText(getApplicationContext(), "Pasitikan Nama Waktu Iqomah Ashr Terisi", Toast.LENGTH_SHORT).show();
+                    return;
+
+                }
+                if (!validasiForm(edt_iqomah_magrib)){
+                    Toast.makeText(getApplicationContext(), "Pasitikan Nama Waktu Iqomah Magrib Terisi", Toast.LENGTH_SHORT).show();
+                    return;
+
+                }
+                if (!validasiForm(edt_iqomah_isya)){
+                    Toast.makeText(getApplicationContext(), "Pasitikan Nama Waktu Iqomah Isya Terisi", Toast.LENGTH_SHORT).show();
+                    return;
+
+                }
+                if (!validasiForm(edt_text_berjalan)){
+                    Toast.makeText(getApplicationContext(), "Pasitikan Text Berjalan Terisi", Toast.LENGTH_SHORT).show();
+                    return;
+
+                }
+
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(TableMain.KEY_ID, 123);
+                contentValues.put(TableMain.KEY_ADZAN_SHUBUH, edt_adzan_shubuh.getText().toString());
+                contentValues.put(TableMain.KEY_ADZAN_DHUHA, edt_adzan_dhuha.getText().toString());
+                contentValues.put(TableMain.KEY_ADZAN_DZUHUR, edt_adzan_dzuhur.getText().toString());
+                contentValues.put(TableMain.KEY_ADZAN_ASHR, edt_adzan_ashr.getText().toString());
+                contentValues.put(TableMain.KEY_ADZAN_MAGRIB, edt_adzan_magrib.getText().toString());
+                contentValues.put(TableMain.KEY_ADZAN_ISYA, edt_adzan_isya.getText().toString());
+
+                contentValues.put(TableMain.KEY_IQOMAH_SHUBUH, edt_iqomah_shubuh.getText().toString());
+                contentValues.put(TableMain.KEY_IQOMAH_DZUHUR, edt_iqomah_dzuhur.getText().toString());
+                contentValues.put(TableMain.KEY_IQOMAH_ASHR, edt_iqomah_ashr.getText().toString());
+                contentValues.put(TableMain.KEY_IQOMAH_MAGRIB, edt_iqomah_magrib.getText().toString());
+                contentValues.put(TableMain.KEY_IQOMAH_ISYA, edt_iqomah_isya.getText().toString());
+
+                dbManager.insert(TableMain.TABLE_MAIN, contentValues, true);
             }
         });
     }

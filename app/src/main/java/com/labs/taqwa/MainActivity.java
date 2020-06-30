@@ -16,6 +16,7 @@ package com.labs.taqwa;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -26,6 +27,8 @@ import android.widget.TextView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.labs.taqwa.adapter.SlideImageAdapter;
+import com.labs.taqwa.database.DBManager;
+import com.labs.taqwa.database.TableMain;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -42,6 +45,10 @@ public class MainActivity extends Activity {
     private LinearLayout lyt_setting;
     private int indexImage = 0;
 
+    private DBManager dbManager;
+
+    private TextView txt_shubuh, txt_dhuha, txt_dzuhur, txt_ashr, txt_magrib, txt_isya;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +56,13 @@ public class MainActivity extends Activity {
 
         view_pager = findViewById(R.id.view_pager);
         lyt_setting = findViewById(R.id.lyt_setting);
+
+        txt_shubuh = findViewById(R.id.txt_shubuh);
+        txt_dhuha = findViewById(R.id.txt_dhuha);
+        txt_dzuhur = findViewById(R.id.txt_dzuhur);
+        txt_ashr = findViewById(R.id.txt_ashr);
+        txt_magrib = findViewById(R.id.txt_magrib);
+        txt_isya = findViewById(R.id.txt_isya);
 
         text_marquee = findViewById(R.id.text_marquee);
         text_marquee.setSelected(true);
@@ -58,10 +72,27 @@ public class MainActivity extends Activity {
 
         slide_image = new int[]{R.drawable.kaaba, R.drawable.kaaba2, R.drawable.kaaba3};
 
+        dbManager = new DBManager(getApplicationContext());
+
         adapter = new SlideImageAdapter(getApplicationContext(), slide_image);
         view_pager.setAdapter(adapter);
 
         createTopSlideShow();
+
+        Cursor cursor =  dbManager.fetch(TableMain.TABLE_MAIN, TableMain.TABLE_FIELDS, null, null, null, null);
+
+        if (cursor.getCount() > 0){
+            while (cursor.moveToNext()){
+                txt_shubuh.setText(cursor.getString(1));
+                txt_dhuha.setText(cursor.getString(2));
+                txt_dzuhur.setText(cursor.getString(3));
+                txt_ashr.setText(cursor.getString(4));
+                txt_magrib.setText(cursor.getString(5));
+                txt_isya.setText(cursor.getString(6));
+
+                text_marquee.setText(cursor.getString(12));
+            }
+        }
 
         lyt_setting.setOnClickListener(new View.OnClickListener() {
             @Override
