@@ -92,22 +92,24 @@ public class Setting extends Activity {
 
         Cursor cursor =  dbManager.fetch(TableMain.TABLE_MAIN, TableMain.TABLE_FIELDS, null, null, null, null);
 
-        if (cursor.getCount() > 0){
-            while (cursor.moveToNext()){
-                edt_adzan_shubuh.setText(cursor.getString(1));
-                edt_adzan_dhuha.setText(cursor.getString(2));
-                edt_adzan_dzuhur.setText(cursor.getString(3));
-                edt_adzan_ashr.setText(cursor.getString(4));
-                edt_adzan_magrib.setText(cursor.getString(5));
-                edt_adzan_isya.setText(cursor.getString(6));
+        if (cursor != null){
+            if (cursor.getCount() > 0){
+                while (cursor.moveToNext()){
+                    edt_adzan_shubuh.setText(cursor.getString(1));
+                    edt_adzan_dhuha.setText(cursor.getString(2));
+                    edt_adzan_dzuhur.setText(cursor.getString(3));
+                    edt_adzan_ashr.setText(cursor.getString(4));
+                    edt_adzan_magrib.setText(cursor.getString(5));
+                    edt_adzan_isya.setText(cursor.getString(6));
 
-                edt_iqomah_shubuh.setText(cursor.getString(7));
-                edt_iqomah_dzuhur.setText(cursor.getString(8));
-                edt_iqomah_ashr.setText(cursor.getString(9));
-                edt_iqomah_magrib.setText(cursor.getString(10));
-                edt_iqomah_isya.setText(cursor.getString(11));
+                    edt_iqomah_shubuh.setText(cursor.getString(7));
+                    edt_iqomah_dzuhur.setText(cursor.getString(8));
+                    edt_iqomah_ashr.setText(cursor.getString(9));
+                    edt_iqomah_magrib.setText(cursor.getString(10));
+                    edt_iqomah_isya.setText(cursor.getString(11));
 
-                edt_text_berjalan.setText(cursor.getString(12));
+                    edt_text_berjalan.setText(cursor.getString(12));
+                }
             }
         }
 

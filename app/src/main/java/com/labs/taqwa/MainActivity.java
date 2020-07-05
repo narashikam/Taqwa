@@ -38,7 +38,7 @@ import java.util.TimerTask;
  */
 public class MainActivity extends Activity {
     private TextView text_marquee;
-    private TextClock text_clock;
+    private TextClock text_clock, text_clock_day;
     private int[] slide_image;
     private SlideImageAdapter adapter;
     private ViewPager view_pager;
@@ -68,6 +68,7 @@ public class MainActivity extends Activity {
         text_marquee.setSelected(true);
 
         text_clock = findViewById(R.id.text_clock);
+        text_clock_day = findViewById(R.id.text_clock_day);
         text_clock.setFormat12Hour("k:mm:ss");
 
         slide_image = new int[]{R.drawable.kaaba, R.drawable.kaaba2, R.drawable.kaaba3};
@@ -81,16 +82,18 @@ public class MainActivity extends Activity {
 
         Cursor cursor =  dbManager.fetch(TableMain.TABLE_MAIN, TableMain.TABLE_FIELDS, null, null, null, null);
 
-        if (cursor.getCount() > 0){
-            while (cursor.moveToNext()){
-                txt_shubuh.setText(cursor.getString(1));
-                txt_dhuha.setText(cursor.getString(2));
-                txt_dzuhur.setText(cursor.getString(3));
-                txt_ashr.setText(cursor.getString(4));
-                txt_magrib.setText(cursor.getString(5));
-                txt_isya.setText(cursor.getString(6));
+        if (cursor != null) {
+            if (cursor.getCount() > 0){
+                while (cursor.moveToNext()){
+                    txt_shubuh.setText(cursor.getString(1));
+                    txt_dhuha.setText(cursor.getString(2));
+                    txt_dzuhur.setText(cursor.getString(3));
+                    txt_ashr.setText(cursor.getString(4));
+                    txt_magrib.setText(cursor.getString(5));
+                    txt_isya.setText(cursor.getString(6));
 
-                text_marquee.setText(cursor.getString(12));
+                    text_marquee.setText(cursor.getString(12));
+                }
             }
         }
 

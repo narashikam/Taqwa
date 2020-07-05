@@ -27,6 +27,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:padding="5dp">
+
+            <com.labs.taqwa.custom.DayInIslam
+                android:id="@+id/text_clock_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="@color/red_600"
+                android:textSize="40dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:layout_margin="5dp"
             android:layout_alignParentRight="true">
 
@@ -44,7 +60,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:layout_gravity="right">
+                android:layout_gravity="right"
+                android:padding="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
