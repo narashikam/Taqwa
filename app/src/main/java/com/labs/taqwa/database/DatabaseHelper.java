@@ -8,7 +8,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "DatabaseHelper";
 
     private static final String DATABASE_NAME = "taqwa.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -22,11 +22,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-//        for (int version = oldVersion + 1; version <= newVersion; version++){
-//            switch (version){
-//                case 2 :
-//                    break;
-//            }
-//        }
+        for (int version = oldVersion + 1; version <= newVersion; version++){
+            switch (version){
+                case 2 :
+                    db.execSQL("drop table if exists "+ TableMain.TABLE_MAIN +"");
+                    db.execSQL(TableMain.CREATE_TABLE_MAIN);
+                    break;
+            }
+        }
     }
 }

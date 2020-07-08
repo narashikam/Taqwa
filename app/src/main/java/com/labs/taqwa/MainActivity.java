@@ -15,28 +15,42 @@
 package com.labs.taqwa;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.viewpager.widget.ViewPager;
 
 import com.labs.taqwa.adapter.SlideImageAdapter;
+import com.labs.taqwa.apihelper.SetGetTime;
+import com.labs.taqwa.apihelper.UtilsApi;
 import com.labs.taqwa.database.DBManager;
 import com.labs.taqwa.database.TableMain;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.Timer;
 import java.util.TimerTask;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /*
  * Main Activity class that loads {@link MainFragment}.
  */
 public class MainActivity extends Activity {
+    private final String TAG = "MainActivity";
     private TextView text_marquee;
     private TextClock text_clock, text_clock_day;
     private int[] slide_image;
@@ -48,6 +62,8 @@ public class MainActivity extends Activity {
     private DBManager dbManager;
 
     private TextView txt_shubuh, txt_dhuha, txt_dzuhur, txt_ashr, txt_magrib, txt_isya;
+
+    private SetGetTime setGetTime;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,19 +96,21 @@ public class MainActivity extends Activity {
 
         createTopSlideShow();
 
+        setTimeByApi();
+
         Cursor cursor =  dbManager.fetch(TableMain.TABLE_MAIN, TableMain.TABLE_FIELDS, null, null, null, null);
 
         if (cursor != null) {
             if (cursor.getCount() > 0){
                 while (cursor.moveToNext()){
-                    txt_shubuh.setText(cursor.getString(1));
-                    txt_dhuha.setText(cursor.getString(2));
-                    txt_dzuhur.setText(cursor.getString(3));
-                    txt_ashr.setText(cursor.getString(4));
-                    txt_magrib.setText(cursor.getString(5));
-                    txt_isya.setText(cursor.getString(6));
+                    txt_shubuh.setText(cursor.getString(2));
+                    txt_dhuha.setText(cursor.getString(3));
+                    txt_dzuhur.setText(cursor.getString(4));
+                    txt_ashr.setText(cursor.getString(5));
+                    txt_magrib.setText(cursor.getString(6));
+                    txt_isya.setText(cursor.getString(7));
 
-                    text_marquee.setText(cursor.getString(12));
+                    text_marquee.setText(cursor.getString(13));
                 }
             }
         }
@@ -127,5 +145,42 @@ public class MainActivity extends Activity {
                 handler.post(runnable);
             }
         }, 1000, 5000);
+    }
+
+    private void setTimeByApi(){
+        setGetTime = UtilsApi.getWaktuSholat(getApplicationContext());
+
+        setGetTime.getTime().enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        JSONObject jsonRESULTS = new JSONObject(response.body().string());
+                        JSONObject rslt = new JSONObject(jsonRESULTS.getString("results"));
+                        JSONArray jaDateTime = new JSONArray(rslt.getString("datetime"));
+                        JSONObject joTimes = new JSONObject(jaDateTime.getJSONObject(0).getString("times"));
+
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put(TableMain.KEY_ID, 123);
+                        contentValues.put(TableMain.KEY_ADZAN_SHUBUH, joTimes.getString("Fajr"));
+                        contentValues.put(TableMain.KEY_ADZAN_DHUHA, joTimes.getString("Sunrise"));
+                        contentValues.put(TableMain.KEY_ADZAN_DZUHUR, joTimes.getString("Dhuhr"));
+                        contentValues.put(TableMain.KEY_ADZAN_ASHR, joTimes.getString("Asr"));
+                        contentValues.put(TableMain.KEY_ADZAN_MAGRIB, joTimes.getString("Maghrib"));
+                        contentValues.put(TableMain.KEY_ADZAN_ISYA, joTimes.getString("Isha"));
+
+                        dbManager.insert(TableMain.TABLE_MAIN, contentValues, true);
+
+                    } catch (Exception e) {
+                        Log.e(TAG, e.getMessage());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
     }
 }

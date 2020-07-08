@@ -40,6 +40,7 @@ public class TableMain {
 
     public static final String CREATE_TABLE_MAIN = "CREATE TABLE IF NOT EXISTS "
             + TABLE_MAIN +"("
+            + KEY_ID +" TEXT,"
             + KEY_NAME_MESJID +" TEXT,"
             + KEY_ADZAN_SHUBUH +" TEXT,"
             + KEY_ADZAN_DHUHA +" TEXT,"
