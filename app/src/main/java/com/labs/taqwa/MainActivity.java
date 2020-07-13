@@ -15,6 +15,7 @@
 package com.labs.taqwa;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -22,6 +23,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
@@ -64,6 +67,9 @@ public class MainActivity extends Activity {
     private TextView txt_shubuh, txt_dhuha, txt_dzuhur, txt_ashr, txt_magrib, txt_isya;
 
     private SetGetTime setGetTime;
+
+    private Thread thread;
+    private Dialog dialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -121,6 +127,76 @@ public class MainActivity extends Activity {
                 startActivity(new Intent(MainActivity.this, Setting.class));
             }
         });
+
+        thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true){
+                    try {
+                        String[] sTime = text_clock.getText().toString().split(":");
+                        String realTime = sTime[0] + ":" + sTime[1];
+
+                        if (realTime.equals(txt_shubuh.getText().toString())){
+                            showCustomDialog("Sudah memasuki Adzan Shubuh");
+                        }
+                        else if (realTime.equals(timePlus(txt_shubuh.getText().toString()))){
+                            dialog.dismiss();
+                        }
+                        else if (realTime.equals(txt_dzuhur.getText().toString())){
+                            showCustomDialog("Sudah memasuki Adzan Dzhuhur");
+                        }
+                        else if (realTime.equals(timePlus(txt_dzuhur.getText().toString()))){
+                            dialog.dismiss();
+                        }
+                        else if (realTime.equals(txt_ashr.getText().toString())){
+                            showCustomDialog("Sudah memasuki Adzan Ashr");
+                        }
+                        else if (realTime.equals(timePlus(txt_ashr.getText().toString()))){
+                            dialog.dismiss();
+                        }
+                        else if (realTime.equals(txt_magrib.getText().toString())){
+                            showCustomDialog("Sudah memasuki Adzan Magrib");
+                        }
+                        else if (realTime.equals(timePlus(txt_magrib.getText().toString()))){
+                            dialog.dismiss();
+                        }
+                        else if (realTime.equals(txt_isya.getText().toString())){
+                            showCustomDialog("Sudah memasuki Adzan Isya");
+                        }
+                        else if (realTime.equals(timePlus(txt_isya.getText().toString()))){
+                            dialog.dismiss();
+                        }
+
+                        Thread.sleep(1000*60);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        thread.start();
+    }
+
+    private String timePlus(String s){
+        String[] a = s.split(":");
+        int b = Integer.valueOf(a[1]) + 1;
+        String c = a[0] + ":" + b;
+
+        return c;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (thread != null && !thread.isAlive()){
+            thread.start();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        thread.interrupt();
     }
 
     private void createTopSlideShow(){
@@ -182,5 +258,25 @@ public class MainActivity extends Activity {
 
             }
         });
+    }
+
+    private void showCustomDialog(String title) {
+        TextView textView;
+
+        dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.dialog_notif);
+        dialog.setCancelable(true);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        textView = dialog.findViewById(R.id.content);
+        textView.setText(title);
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 }

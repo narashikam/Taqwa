@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.labs.taqwa.database.DBManager;
@@ -47,6 +48,8 @@ public class Setting extends Activity {
     private EditText edt_mesjid;
     private EditText edt_text_berjalan;
 
+    private Switch btn_switch;
+
     DBManager dbManager;
 
     @Override
@@ -56,6 +59,7 @@ public class Setting extends Activity {
 
         btn_gallery = findViewById(R.id.btn_gallery);
         btn_simpan = findViewById(R.id.btn_simpan);
+        btn_switch = findViewById(R.id.btn_switch);
 
         edt_adzan_shubuh = findViewById(R.id.edt_adzan_shubuh);
         edt_adzan_dhuha = findViewById(R.id.edt_adzan_dhuha);
