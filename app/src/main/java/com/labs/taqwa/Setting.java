@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -78,6 +79,14 @@ public class Setting extends Activity {
         edt_text_berjalan = findViewById(R.id.edt_text_berjalan);
 
         dbManager = new DBManager(getApplicationContext());
+
+        btn_switch.setChecked(PreferencesUtil.getAutoTime(getApplicationContext()));
+        btn_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                PreferencesUtil.setAutoTime(getApplicationContext(), b);
+            }
+        });
 
         btn_gallery.setOnClickListener(new View.OnClickListener() {
             @Override
