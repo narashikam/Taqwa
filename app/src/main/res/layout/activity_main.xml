@@ -15,6 +15,7 @@
         android:background="@color/overlay_dark_40">
 
         <TextView
+            android:id="@+id/txt_mesjid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Mesjid At Taqwa"

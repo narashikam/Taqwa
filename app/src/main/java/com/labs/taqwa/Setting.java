@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.labs.taqwa.database.DBManager;
 import com.labs.taqwa.database.TableMain;
+import com.labs.taqwa.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,6 +109,8 @@ public class Setting extends Activity {
         if (cursor != null){
             if (cursor.getCount() > 0){
                 while (cursor.moveToNext()){
+                    Log.d("xxx", cursor.getString(1));
+                    edt_mesjid.setText(cursor.getString(1));
                     edt_adzan_shubuh.setText(cursor.getString(2));
                     edt_adzan_dhuha.setText(cursor.getString(3));
                     edt_adzan_dzuhur.setText(cursor.getString(4));
@@ -198,6 +201,9 @@ public class Setting extends Activity {
 
                 ContentValues contentValues = new ContentValues();
                 contentValues.put(TableMain.KEY_ID, 123);
+                contentValues.put(TableMain.KEY_NAME_MESJID, edt_mesjid.getText().toString());
+                contentValues.put(TableMain.KEY_TEXT_BERJALAN, edt_text_berjalan.getText().toString());
+
                 contentValues.put(TableMain.KEY_ADZAN_SHUBUH, edt_adzan_shubuh.getText().toString());
                 contentValues.put(TableMain.KEY_ADZAN_DHUHA, edt_adzan_dhuha.getText().toString());
                 contentValues.put(TableMain.KEY_ADZAN_DZUHUR, edt_adzan_dzuhur.getText().toString());
@@ -249,6 +255,8 @@ public class Setting extends Activity {
                     imageEncoded = cursor.getString(columnIndex);
                     cursor.close();
 
+                    imagesEncodedList.add(imageEncoded);
+                    Utils.setListImage(imagesEncodedList);
                 } else {
                     //on multiple image selected
                     if (data.getClipData() != null) {
@@ -270,6 +278,7 @@ public class Setting extends Activity {
                             cursor.close();
 
                         }
+                        Utils.setListImage(imagesEncodedList);
                         Log.v("MainActivity", "Selected Images" + mArrayUri.size());
                     }
                 }

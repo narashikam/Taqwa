@@ -19,6 +19,9 @@ import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -28,15 +31,16 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.viewpager.widget.ViewPager;
 
 import com.labs.taqwa.adapter.SlideImageAdapter;
+import com.labs.taqwa.adapter.SlideImageGalleryAdapter;
 import com.labs.taqwa.apihelper.SetGetTime;
 import com.labs.taqwa.apihelper.UtilsApi;
 import com.labs.taqwa.database.DBManager;
 import com.labs.taqwa.database.TableMain;
+import com.labs.taqwa.util.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -54,10 +58,12 @@ import retrofit2.Response;
  */
 public class MainActivity extends Activity {
     private final String TAG = "MainActivity";
-    private TextView text_marquee;
+    private TextView text_marquee, txt_mesjid;
+    TextView textView;
     private TextClock text_clock, text_clock_day;
     private int[] slide_image;
-    private SlideImageAdapter adapter;
+    private SlideImageAdapter slideImageAdapter;
+    private SlideImageGalleryAdapter slideImageGalleryAdapter;
     private ViewPager view_pager;
     private LinearLayout lyt_setting;
     private int indexImage = 0;
@@ -79,7 +85,6 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("xxx", "crateeeee");
         setContentView(R.layout.activity_main);
 
         view_pager = findViewById(R.id.view_pager);
@@ -92,6 +97,7 @@ public class MainActivity extends Activity {
         txt_magrib = findViewById(R.id.txt_magrib);
         txt_isya = findViewById(R.id.txt_isya);
 
+        txt_mesjid = findViewById(R.id.txt_mesjid);
         text_marquee = findViewById(R.id.text_marquee);
         text_marquee.setSelected(true);
 
@@ -103,8 +109,18 @@ public class MainActivity extends Activity {
 
         dbManager = new DBManager(getApplicationContext());
 
-        adapter = new SlideImageAdapter(getApplicationContext(), slide_image);
-        view_pager.setAdapter(adapter);
+        if (Utils.getListImage() != null && Utils.getListImage().size() > 0){
+            Bitmap[] bitmaps = new Bitmap[Utils.getListImage().size()];
+            for (int i = 0; i < Utils.getListImage().size(); i++){
+                bitmaps[i] = BitmapFactory.decodeFile(Utils.getListImage().get(i));
+            }
+            slideImageGalleryAdapter = new SlideImageGalleryAdapter(getApplicationContext(), bitmaps);
+            view_pager.setAdapter(slideImageGalleryAdapter);
+        }
+        else {
+            slideImageAdapter = new SlideImageAdapter(getApplicationContext(), slide_image);
+            view_pager.setAdapter(slideImageAdapter);
+        }
 
         createTopSlideShow();
 
@@ -117,6 +133,7 @@ public class MainActivity extends Activity {
         if (cursor != null) {
             if (cursor.getCount() > 0){
                 while (cursor.moveToNext()){
+                    txt_mesjid.setText(cursor.getString(1));
                     txt_shubuh.setText(cursor.getString(2));
                     txt_dhuha.setText(cursor.getString(3));
                     txt_dzuhur.setText(cursor.getString(4));
@@ -142,59 +159,83 @@ public class MainActivity extends Activity {
             }
         });
 
-        thread = new Thread(new Runnable() {
+        dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.dialog_notif);
+        dialog.setCancelable(true);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.getWindow().setAttributes(lp);
+
+        textView = dialog.findViewById(R.id.content);
+
+        thread = new Thread() {
             @Override
             public void run() {
                 while (true){
                     try {
-                        String[] sTime = text_clock.getText().toString().split(":");
-                        String realTime = sTime[0] + ":" + sTime[1];
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    String[] sTime = text_clock.getText().toString().split(":");
+                                    String realTime = sTime[0] + ":" + sTime[1];
 
-                        if (realTime.equals(txt_shubuh.getText().toString())){
-                            showCustomDialog("Sudah memasuki Adzan Shubuh");
-                        }
-                        else if (!iqomah_shubuh.isEmpty() && realTime.equals(iqomah_shubuh)){
-                            showCustomDialog("Sudah memasuki Iqomah Shubuh");
-                        }
-                        else if (realTime.equals(txt_dzuhur.getText().toString())){
-                            showCustomDialog("Sudah memasuki Adzan Dzhuhur");
-                        }
-                        else if (!iqomah_dzuhur.isEmpty() && realTime.equals(iqomah_dzuhur)){
-                            showCustomDialog("Sudah memasuki Iqomah Dzuhur");
-                        }
-                        else if (realTime.equals(txt_ashr.getText().toString())){
-                            showCustomDialog("Sudah memasuki Adzan Ashr");
-                        }
-                        else if (!iqomah_ashr.isEmpty() && realTime.equals(iqomah_ashr)){
-                            showCustomDialog("Sudah memasuki Iqomah Ashr");
-                        }
-                        else if (realTime.equals(txt_magrib.getText().toString())){
-                            showCustomDialog("Sudah memasuki Adzan Magrib");
-                        }
-                        else if (!iqomah_magrib.isEmpty() && realTime.equals(iqomah_magrib)){
-                            showCustomDialog("Sudah memasuki Iqomah Ashr");
-                        }
-                        else if (realTime.equals(txt_isya.getText().toString())){
-                            showCustomDialog("Sudah memasuki Adzan Isya");
-                        }
-                        else if (!iqomah_isya.isEmpty() && realTime.equals(iqomah_isya)){
-                            showCustomDialog("Sudah memasuki Iqomah Ashr");
-                        }
-                        else {
-                            if (dialog != null){
-                                if (dialog.isShowing()){
-                                    dialog.dismiss();
+                                    Log.d("xxx", realTime);
+
+                                    if (realTime.equals("15:22")){
+                                        showCustomDialog("Sudah memasuki Adzan Shubuh");
+                                    }
+                                    else if (!iqomah_shubuh.isEmpty() && realTime.equals(iqomah_shubuh)){
+                                        showCustomDialog("Sudah memasuki Iqomah Shubuh");
+                                    }
+                                    else if (realTime.equals(txt_dzuhur.getText().toString())){
+                                        showCustomDialog("Sudah memasuki Adzan Dzhuhur");
+                                    }
+                                    else if (!iqomah_dzuhur.isEmpty() && realTime.equals(iqomah_dzuhur)){
+                                        showCustomDialog("Sudah memasuki Iqomah Dzuhur");
+                                    }
+                                    else if (realTime.equals(txt_ashr.getText().toString())){
+                                        showCustomDialog("Sudah memasuki Adzan Ashr");
+                                    }
+                                    else if (!iqomah_ashr.isEmpty() && realTime.equals(iqomah_ashr)){
+                                        showCustomDialog("Sudah memasuki Iqomah Ashr");
+                                    }
+                                    else if (realTime.equals(txt_magrib.getText().toString())){
+                                        showCustomDialog("Sudah memasuki Adzan Magrib");
+                                    }
+                                    else if (!iqomah_magrib.isEmpty() && realTime.equals(iqomah_magrib)){
+                                        showCustomDialog("Sudah memasuki Iqomah Ashr");
+                                    }
+                                    else if (realTime.equals(txt_isya.getText().toString())){
+                                        showCustomDialog("Sudah memasuki Adzan Isya");
+                                    }
+                                    else if (!iqomah_isya.isEmpty() && realTime.equals(iqomah_isya)){
+                                        showCustomDialog("Sudah memasuki Iqomah Ashr");
+                                    }
+                                    else {
+                                        if (dialog != null){
+                                            if (dialog.isShowing()){
+                                                dialog.dismiss();
+                                            }
+                                        }
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
                             }
-                        }
-
+                        });
                         Thread.sleep(1000*60);
-                    } catch (InterruptedException e) {
+                    }
+                    catch (Exception e){
                         e.printStackTrace();
                     }
                 }
             }
-        });
+        };
         thread.start();
     }
 
@@ -295,24 +336,10 @@ public class MainActivity extends Activity {
     }
 
     private void showCustomDialog(String title) {
-        TextView textView;
-
-        dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.dialog_notif);
-        dialog.setCancelable(true);
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-        textView = dialog.findViewById(R.id.content);
         textView.setText(title);
 
         if (!dialog.isShowing()){
             dialog.show();
-            dialog.getWindow().setAttributes(lp);
         }
     }
 }
