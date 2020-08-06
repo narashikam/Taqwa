@@ -18,7 +18,7 @@
             android:id="@+id/txt_mesjid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mesjid At Taqwa"
+            android:text="Nama Mesjid"
             android:gravity="center"
             android:textSize="30dp"
             android:textStyle="bold"
@@ -30,13 +30,25 @@
             android:orientation="vertical"
             android:padding="5dp">
 
+            <com.labs.taqwa.custom.DayInIndo
+                android:id="@+id/text_clock_indo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:textColor="@color/red_600"
+                android:textSize="20dp" />
+
             <com.labs.taqwa.custom.DayInIslam
                 android:id="@+id/text_clock_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingBottom="5dp"
                 android:textColor="@color/red_600"
-                android:textSize="30dp" />
+                android:textSize="20dp" />
 
         </LinearLayout>
 
@@ -86,7 +98,7 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_alignParentBottom="true"
@@ -264,10 +276,11 @@
 
         <TextView
             android:id="@+id/text_marquee"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/test"
             android:marqueeRepeatLimit="marquee_forever"
+            android:textAlignment="center"
             android:padding="5dp"
             android:layout_marginTop="10dp"
             android:textSize="18dp"

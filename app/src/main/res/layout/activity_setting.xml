@@ -56,12 +56,15 @@
                 android:id="@+id/edt_adzan_shubuh"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="5"
                 android:hint="waktu adzan"/>
 
             <EditText
                 android:id="@+id/edt_iqomah_shubuh"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="1"
+                android:inputType="numberDecimal"
                 android:hint="waktu iqomah"/>
 
         </LinearLayout>
@@ -81,6 +84,7 @@
                 android:id="@+id/edt_adzan_dhuha"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="5"
                 android:hint="waktu dhuha"/>
 
         </LinearLayout>
@@ -100,12 +104,15 @@
                 android:id="@+id/edt_adzan_dzuhur"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="5"
                 android:hint="waktu adzan"/>
 
             <EditText
                 android:id="@+id/edt_iqomah_dzuhur"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="1"
+                android:inputType="numberDecimal"
                 android:hint="waktu iqomah"/>
 
         </LinearLayout>
@@ -125,12 +132,15 @@
                 android:id="@+id/edt_adzan_ashr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="5"
                 android:hint="waktu adzan"/>
 
             <EditText
                 android:id="@+id/edt_iqomah_ashr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="1"
+                android:inputType="numberDecimal"
                 android:hint="waktu iqomah"/>
 
         </LinearLayout>
@@ -150,12 +160,15 @@
                 android:id="@+id/edt_adzan_magrib"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="5"
                 android:hint="waktu adzan"/>
 
             <EditText
                 android:id="@+id/edt_iqomah_magrib"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="1"
+                android:inputType="numberDecimal"
                 android:hint="waktu iqomah"/>
 
         </LinearLayout>
@@ -175,12 +188,15 @@
                 android:id="@+id/edt_adzan_isya"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="5"
                 android:hint="waktu adzan"/>
 
             <EditText
                 android:id="@+id/edt_iqomah_isya"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="1"
+                android:inputType="numberDecimal"
                 android:hint="waktu iqomah"/>
 
         </LinearLayout>

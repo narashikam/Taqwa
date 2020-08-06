@@ -19,14 +19,26 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.labs.taqwa.apihelper.SetGetTime;
+import com.labs.taqwa.apihelper.UtilsApi;
 import com.labs.taqwa.database.DBManager;
 import com.labs.taqwa.database.TableMain;
+import com.labs.taqwa.database.TableSecond;
 import com.labs.taqwa.util.Utils;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class Setting extends Activity {
+    private static final String TAG = "Setting";
     private static final int PERMISSION_TO_SELECT_IMAGE_FROM_GALLERY = 100;
     private static final int PICK_IMAGE_MULTIPLE = 200;
 
@@ -86,6 +98,9 @@ public class Setting extends Activity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 PreferencesUtil.setAutoTime(getApplicationContext(), b);
+                if (b){
+                    setTimeByApi();
+                }
             }
         });
 
@@ -104,27 +119,33 @@ public class Setting extends Activity {
             }
         });
 
-        Cursor cursor =  dbManager.fetch(TableMain.TABLE_MAIN, TableMain.TABLE_FIELDS, null, null, null, null);
+        Cursor cursorMain =  dbManager.fetch(TableMain.TABLE_MAIN, TableMain.TABLE_FIELDS, null, null, null, null);
+        Cursor cursorSecond =  dbManager.fetch(TableSecond.TABLE_SECOND, TableSecond.TABLE_FIELDS, null, null, null, null);
 
-        if (cursor != null){
-            if (cursor.getCount() > 0){
-                while (cursor.moveToNext()){
-                    Log.d("xxx", cursor.getString(1));
-                    edt_mesjid.setText(cursor.getString(1));
-                    edt_adzan_shubuh.setText(cursor.getString(2));
-                    edt_adzan_dhuha.setText(cursor.getString(3));
-                    edt_adzan_dzuhur.setText(cursor.getString(4));
-                    edt_adzan_ashr.setText(cursor.getString(5));
-                    edt_adzan_magrib.setText(cursor.getString(6));
-                    edt_adzan_isya.setText(cursor.getString(7));
+        if (cursorMain != null){
+            if (cursorMain.getCount() > 0){
+                while (cursorMain.moveToNext()){
+                    edt_adzan_shubuh.setText(cursorMain.getString(1));
+                    edt_adzan_dhuha.setText(cursorMain.getString(2));
+                    edt_adzan_dzuhur.setText(cursorMain.getString(3));
+                    edt_adzan_ashr.setText(cursorMain.getString(4));
+                    edt_adzan_magrib.setText(cursorMain.getString(5));
+                    edt_adzan_isya.setText(cursorMain.getString(6));
+                }
+            }
+        }
 
-                    edt_iqomah_shubuh.setText(cursor.getString(8));
-                    edt_iqomah_dzuhur.setText(cursor.getString(9));
-                    edt_iqomah_ashr.setText(cursor.getString(10));
-                    edt_iqomah_magrib.setText(cursor.getString(11));
-                    edt_iqomah_isya.setText(cursor.getString(12));
+        if (cursorSecond != null){
+            if (cursorSecond.getCount() > 0){
+                while (cursorSecond.moveToNext()){
+                    edt_mesjid.setText(cursorSecond.getString(1));
+                    edt_iqomah_shubuh.setText(cursorSecond.getString(2));
+                    edt_iqomah_dzuhur.setText(cursorSecond.getString(3));
+                    edt_iqomah_ashr.setText(cursorSecond.getString(4));
+                    edt_iqomah_magrib.setText(cursorSecond.getString(5));
+                    edt_iqomah_isya.setText(cursorSecond.getString(6));
 
-                    edt_text_berjalan.setText(cursor.getString(13));
+                    edt_text_berjalan.setText(cursorSecond.getString(7));
                 }
             }
         }
@@ -137,33 +158,33 @@ public class Setting extends Activity {
                     return;
 
                 }
-                if (!validasiForm(edt_adzan_shubuh)){
-                    Toast.makeText(getApplicationContext(), "Pasitikan Nama Waktu Adzan Shubuh Terisi", Toast.LENGTH_SHORT).show();
+                if (!validasiFormatTime(edt_adzan_shubuh)){
+                    Toast.makeText(getApplicationContext(), "Pasitikan Nama Waktu Adzan Shubuh Terisi dan Format Benar", Toast.LENGTH_SHORT).show();
                     return;
 
                 }
-                if (!validasiForm(edt_adzan_dhuha)){
-                    Toast.makeText(getApplicationContext(), "Pasitikan Nama Waktu Dhuha Terisi", Toast.LENGTH_SHORT).show();
+                if (!validasiFormatTime(edt_adzan_dhuha)){
+                    Toast.makeText(getApplicationContext(), "Pasitikan Nama Waktu Dhuha Terisi dan Format Benar", Toast.LENGTH_SHORT).show();
                     return;
 
                 }
-                if (!validasiForm(edt_adzan_dzuhur)){
-                    Toast.makeText(getApplicationContext(), "Pasitikan Nama Waktu Adzan Dzuhur Terisi", Toast.LENGTH_SHORT).show();
+                if (!validasiFormatTime(edt_adzan_dzuhur)){
+                    Toast.makeText(getApplicationContext(), "Pasitikan Nama Waktu Adzan Dzuhur Terisi dan Format Benar", Toast.LENGTH_SHORT).show();
                     return;
 
                 }
-                if (!validasiForm(edt_adzan_ashr)){
-                    Toast.makeText(getApplicationContext(), "Pasitikan Nama Waktu Adzan Ashr Terisi", Toast.LENGTH_SHORT).show();
+                if (!validasiFormatTime(edt_adzan_ashr)){
+                    Toast.makeText(getApplicationContext(), "Pasitikan Nama Waktu Adzan Ashr Terisi dan Format Benar", Toast.LENGTH_SHORT).show();
                     return;
 
                 }
-                if (!validasiForm(edt_adzan_magrib)){
-                    Toast.makeText(getApplicationContext(), "Pasitikan Nama Waktu Adzan Magrib Terisi", Toast.LENGTH_SHORT).show();
+                if (!validasiFormatTime(edt_adzan_magrib)){
+                    Toast.makeText(getApplicationContext(), "Pasitikan Nama Waktu Adzan Magrib Terisi dan Format Benar", Toast.LENGTH_SHORT).show();
                     return;
 
                 }
-                if (!validasiForm(edt_adzan_isya)){
-                    Toast.makeText(getApplicationContext(), "Pasitikan Nama Waktu Adzan Isya Terisi", Toast.LENGTH_SHORT).show();
+                if (!validasiFormatTime(edt_adzan_isya)){
+                    Toast.makeText(getApplicationContext(), "Pasitikan Nama Waktu Adzan Isya Terisi dan Format Benar", Toast.LENGTH_SHORT).show();
                     return;
 
                 }
@@ -199,25 +220,33 @@ public class Setting extends Activity {
 
                 }
 
-                ContentValues contentValues = new ContentValues();
-                contentValues.put(TableMain.KEY_ID, 123);
-                contentValues.put(TableMain.KEY_NAME_MESJID, edt_mesjid.getText().toString());
-                contentValues.put(TableMain.KEY_TEXT_BERJALAN, edt_text_berjalan.getText().toString());
+                ContentValues contentValuesMain = new ContentValues();
+                ContentValues contentValuesSecond = new ContentValues();
+                contentValuesSecond.put(TableMain.KEY_ID, 123);
 
-                contentValues.put(TableMain.KEY_ADZAN_SHUBUH, edt_adzan_shubuh.getText().toString());
-                contentValues.put(TableMain.KEY_ADZAN_DHUHA, edt_adzan_dhuha.getText().toString());
-                contentValues.put(TableMain.KEY_ADZAN_DZUHUR, edt_adzan_dzuhur.getText().toString());
-                contentValues.put(TableMain.KEY_ADZAN_ASHR, edt_adzan_ashr.getText().toString());
-                contentValues.put(TableMain.KEY_ADZAN_MAGRIB, edt_adzan_magrib.getText().toString());
-                contentValues.put(TableMain.KEY_ADZAN_ISYA, edt_adzan_isya.getText().toString());
+                contentValuesMain.put(TableMain.KEY_ID, 123);
+                contentValuesSecond.put(TableSecond.KEY_NAME_MESJID, edt_mesjid.getText().toString());
+                contentValuesSecond.put(TableSecond.KEY_TEXT_BERJALAN, edt_text_berjalan.getText().toString());
 
-                contentValues.put(TableMain.KEY_IQOMAH_SHUBUH, edt_iqomah_shubuh.getText().toString());
-                contentValues.put(TableMain.KEY_IQOMAH_DZUHUR, edt_iqomah_dzuhur.getText().toString());
-                contentValues.put(TableMain.KEY_IQOMAH_ASHR, edt_iqomah_ashr.getText().toString());
-                contentValues.put(TableMain.KEY_IQOMAH_MAGRIB, edt_iqomah_magrib.getText().toString());
-                contentValues.put(TableMain.KEY_IQOMAH_ISYA, edt_iqomah_isya.getText().toString());
+                contentValuesMain.put(TableMain.KEY_ADZAN_SHUBUH, edt_adzan_shubuh.getText().toString());
+                contentValuesMain.put(TableMain.KEY_ADZAN_DHUHA, edt_adzan_dhuha.getText().toString());
+                contentValuesMain.put(TableMain.KEY_ADZAN_DZUHUR, edt_adzan_dzuhur.getText().toString());
+                contentValuesMain.put(TableMain.KEY_ADZAN_ASHR, edt_adzan_ashr.getText().toString());
+                contentValuesMain.put(TableMain.KEY_ADZAN_MAGRIB, edt_adzan_magrib.getText().toString());
+                contentValuesMain.put(TableMain.KEY_ADZAN_ISYA, edt_adzan_isya.getText().toString());
 
-                dbManager.insert(TableMain.TABLE_MAIN, contentValues, true);
+                contentValuesSecond.put(TableSecond.KEY_IQOMAH_SHUBUH, edt_iqomah_shubuh.getText().toString());
+                contentValuesSecond.put(TableSecond.KEY_IQOMAH_DZUHUR, edt_iqomah_dzuhur.getText().toString());
+                contentValuesSecond.put(TableSecond.KEY_IQOMAH_ASHR, edt_iqomah_ashr.getText().toString());
+                contentValuesSecond.put(TableSecond.KEY_IQOMAH_MAGRIB, edt_iqomah_magrib.getText().toString());
+                contentValuesSecond.put(TableSecond.KEY_IQOMAH_ISYA, edt_iqomah_isya.getText().toString());
+
+                long a = dbManager.insert(TableMain.TABLE_MAIN, contentValuesMain, true);
+                long b = dbManager.insert(TableSecond.TABLE_SECOND, contentValuesSecond, true);
+
+                if (a > 0 && b > 0){
+                    finish();
+                }
             }
         });
     }
@@ -228,6 +257,15 @@ public class Setting extends Activity {
         }
         else {
             return true;
+        }
+    }
+
+    private boolean validasiFormatTime(EditText edt){
+        if (edt.getText().toString().trim().matches("^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$")){
+            return true;
+        }
+        else {
+            return false;
         }
     }
 
@@ -290,5 +328,41 @@ public class Setting extends Activity {
         }
 
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void setTimeByApi(){
+
+        SetGetTime setGetTime;
+
+        setGetTime = UtilsApi.getWaktuSholat(getApplicationContext());
+
+        setGetTime.getTime().enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        JSONObject jsonRESULTS = new JSONObject(response.body().string());
+                        JSONObject rslt = new JSONObject(jsonRESULTS.getString("results"));
+                        JSONArray jaDateTime = new JSONArray(rslt.getString("datetime"));
+                        JSONObject joTimes = new JSONObject(jaDateTime.getJSONObject(0).getString("times"));
+
+                        edt_adzan_shubuh.setText(joTimes.getString("Fajr"));
+                        edt_adzan_dhuha.setText(joTimes.getString("Sunrise"));
+                        edt_adzan_dzuhur.setText(joTimes.getString("Dhuhr"));
+                        edt_adzan_ashr.setText(joTimes.getString("Asr"));
+                        edt_adzan_magrib.setText(joTimes.getString("Maghrib"));
+                        edt_adzan_isya.setText(joTimes.getString("Isha")) ;
+
+                    } catch (Exception e) {
+                        Log.e(TAG, e.getMessage());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
     }
 }
