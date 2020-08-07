@@ -63,7 +63,7 @@
                 android:id="@+id/edt_iqomah_shubuh"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="1"
+                android:maxLength="2"
                 android:inputType="numberDecimal"
                 android:hint="waktu iqomah"/>
 
@@ -111,7 +111,7 @@
                 android:id="@+id/edt_iqomah_dzuhur"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="1"
+                android:maxLength="2"
                 android:inputType="numberDecimal"
                 android:hint="waktu iqomah"/>
 
@@ -139,7 +139,7 @@
                 android:id="@+id/edt_iqomah_ashr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="1"
+                android:maxLength="2"
                 android:inputType="numberDecimal"
                 android:hint="waktu iqomah"/>
 
@@ -167,7 +167,7 @@
                 android:id="@+id/edt_iqomah_magrib"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="1"
+                android:maxLength="2"
                 android:inputType="numberDecimal"
                 android:hint="waktu iqomah"/>
 
@@ -195,7 +195,7 @@
                 android:id="@+id/edt_iqomah_isya"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="1"
+                android:maxLength="2"
                 android:inputType="numberDecimal"
                 android:hint="waktu iqomah"/>
 

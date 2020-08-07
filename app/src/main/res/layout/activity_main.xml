@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:text="Nama Mesjid"
             android:gravity="center"
-            android:textSize="30dp"
+            android:textSize="35dp"
             android:textStyle="bold"
             android:layout_centerVertical="true" />
 
@@ -36,9 +36,9 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:paddingTop="5dp"
+                android:paddingTop="3dp"
                 android:textColor="@color/red_600"
-                android:textSize="20dp" />
+                android:textSize="30dp" />
 
             <com.labs.taqwa.custom.DayInIslam
                 android:id="@+id/text_clock_day"
@@ -46,9 +46,9 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:paddingBottom="5dp"
+                android:paddingBottom="3dp"
                 android:textColor="@color/red_600"
-                android:textSize="20dp" />
+                android:textSize="30dp" />
 
         </LinearLayout>
 
@@ -57,15 +57,18 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_margin="5dp"
-            android:layout_alignParentRight="true">
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true">
 
             <TextClock
                 android:id="@+id/text_clock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="40dp"
+                android:textSize="45dp"
                 android:textColor="@color/red_600"
-                android:padding="5dp"/>
+                android:paddingTop="3dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"/>
 
             <LinearLayout
                 android:id="@+id/lyt_setting"
@@ -74,7 +77,9 @@
                 android:orientation="horizontal"
                 android:gravity="center"
                 android:layout_gravity="right"
-                android:padding="5dp">
+                android:paddingBottom="3dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"

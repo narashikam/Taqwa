@@ -39,8 +39,8 @@ public class DayInIndo extends TextClock {
         String dayName = cal.getDisplayName(cal.DAY_OF_WEEK, Calendar.LONG, currentLocale);
         String monthName = cal.getDisplayName(cal.MONTH, Calendar.LONG, currentLocale);
 
-        this.setFormat12Hour("'" + dayName + "'\n'" + monthName + "' dd yyyy");
-        this.setFormat24Hour("'" + dayName + "'\n'" + monthName + "' dd yyyy");
+        this.setFormat12Hour("'" + dayName + "\n"+ "'dd '" + monthName + "' yyyy");
+        this.setFormat24Hour("'" + dayName + "\n"+ "'dd '" + monthName + "' yyyy");
     }
 }
 
