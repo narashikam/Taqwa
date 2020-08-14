@@ -33,7 +33,6 @@ import android.widget.TextView;
 
 import androidx.viewpager.widget.ViewPager;
 
-import com.labs.taqwa.adapter.SlideImageAdapter;
 import com.labs.taqwa.adapter.SlideImageGalleryAdapter;
 import com.labs.taqwa.apihelper.SetGetTime;
 import com.labs.taqwa.apihelper.UtilsApi;
@@ -61,8 +60,7 @@ public class MainActivity extends Activity {
     private TextView text_marquee, txt_mesjid;
     TextView textView;
     private TextClock text_clock, text_clock_day, text_clock_indo;
-    private int[] slide_image;
-    private SlideImageAdapter slideImageAdapter;
+    private Bitmap[] slide_image;
     private SlideImageGalleryAdapter slideImageGalleryAdapter;
     private ViewPager view_pager;
     private LinearLayout lyt_setting;
@@ -106,22 +104,17 @@ public class MainActivity extends Activity {
         text_clock_indo = findViewById(R.id.text_clock_indo);
         text_clock.setFormat12Hour("k:mm:ss");
 
-        slide_image = new int[]{R.drawable.kaaba, R.drawable.kaaba2, R.drawable.kaaba3};
+        slide_image = new Bitmap[]{
+                BitmapFactory.decodeResource(getResources(),R.drawable.kaaba),
+                BitmapFactory.decodeResource(getResources(),R.drawable.kaaba2),
+                BitmapFactory.decodeResource(getResources(),R.drawable.kaaba3)
+        };
 
         dbManager = new DBManager(getApplicationContext());
 
-        if (Utils.getListImage() != null && Utils.getListImage().size() > 0){
-            Bitmap[] bitmaps = new Bitmap[Utils.getListImage().size()];
-            for (int i = 0; i < Utils.getListImage().size(); i++){
-                bitmaps[i] = BitmapFactory.decodeFile(Utils.getListImage().get(i));
-            }
-            slideImageGalleryAdapter = new SlideImageGalleryAdapter(getApplicationContext(), bitmaps);
-            view_pager.setAdapter(slideImageGalleryAdapter);
-        }
-        else {
-            slideImageAdapter = new SlideImageAdapter(getApplicationContext(), slide_image);
-            view_pager.setAdapter(slideImageAdapter);
-        }
+        slideImageGalleryAdapter = new SlideImageGalleryAdapter(getApplicationContext(), slide_image);
+        slideImageGalleryAdapter = new SlideImageGalleryAdapter(getApplicationContext(), slide_image);
+        view_pager.setAdapter(slideImageGalleryAdapter);
 
         createTopSlideShow();
 
@@ -164,35 +157,35 @@ public class MainActivity extends Activity {
                                     Log.d("xxx", realTime);
                                     Log.d("xxx", iqomah_shubuh);
 
-                                    if (realTime.equals("15:22")){
-                                        showCustomDialog("Sudah memasuki Adzan Shubuh");
+                                    if (realTime.equals(txt_shubuh.getText().toString())){
+                                        showCustomDialog("Sudah memasuki Adzan");
                                     }
                                     else if (!iqomah_shubuh.isEmpty() && realTime.equals(iqomah_shubuh)){
-                                        showCustomDialog("Sudah memasuki Iqomah Shubuh");
+                                        showCustomDialog("Sudah memasuki Iqomah");
                                     }
                                     else if (realTime.equals(txt_dzuhur.getText().toString())){
-                                        showCustomDialog("Sudah memasuki Adzan Dzhuhur");
+                                        showCustomDialog("Sudah memasuki Adzan");
                                     }
                                     else if (!iqomah_dzuhur.isEmpty() && realTime.equals(iqomah_dzuhur)){
-                                        showCustomDialog("Sudah memasuki Iqomah Dzuhur");
+                                        showCustomDialog("Sudah memasuki Iqomah");
                                     }
                                     else if (realTime.equals(txt_ashr.getText().toString())){
-                                        showCustomDialog("Sudah memasuki Adzan Ashr");
+                                        showCustomDialog("Sudah memasuki Adzan");
                                     }
                                     else if (!iqomah_ashr.isEmpty() && realTime.equals(iqomah_ashr)){
-                                        showCustomDialog("Sudah memasuki Iqomah Ashr");
+                                        showCustomDialog("Sudah memasuki Iqomah");
                                     }
                                     else if (realTime.equals(txt_magrib.getText().toString())){
-                                        showCustomDialog("Sudah memasuki Adzan Magrib");
+                                        showCustomDialog("Sudah memasuki Adzan");
                                     }
                                     else if (!iqomah_magrib.isEmpty() && realTime.equals(iqomah_magrib)){
-                                        showCustomDialog("Sudah memasuki Iqomah Ashr");
+                                        showCustomDialog("Sudah memasuki Iqomah");
                                     }
                                     else if (realTime.equals(txt_isya.getText().toString())){
-                                        showCustomDialog("Sudah memasuki Adzan Isya");
+                                        showCustomDialog("Sudah memasuki Adzan");
                                     }
                                     else if (!iqomah_isya.isEmpty() && realTime.equals(iqomah_isya)){
-                                        showCustomDialog("Sudah memasuki Iqomah Ashr");
+                                        showCustomDialog("Sudah memasuki Iqomah");
                                     }
                                     else {
                                         if (dialog != null){
@@ -234,6 +227,13 @@ public class MainActivity extends Activity {
 
         if (PreferencesUtil.getAutoTime(getApplicationContext())){
             setTimeByApi();
+        }
+
+        if (Utils.getListImage() != null && Utils.getListImage().size() > 0){
+            for (int i = 0; i < Utils.getListImage().size(); i++){
+                slide_image[i] = BitmapFactory.decodeFile(Utils.getListImage().get(i));
+            }
+            slideImageGalleryAdapter.notifyDataSetChanged();
         }
 
         setFromDB();
